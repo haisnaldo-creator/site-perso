@@ -795,46 +795,67 @@ function ThumbnailUpload({ value, onChange }) {
     }
 
     return (
-        <div className="flex items-center gap-4">
-            <div className="w-24 h-16 shrink-0 rounded-sm bg-[#0a0a0a] border border-white/10 overflow-hidden flex items-center justify-center">
-                {preview ? (
-                    <img
-                        src={preview}
-                        alt="preview"
-                        className="w-full h-full object-cover"
+        <div className="space-y-3">
+            <div className="flex items-center gap-4">
+                <div className="w-24 h-16 shrink-0 rounded-sm bg-[#0a0a0a] border border-white/10 overflow-hidden flex items-center justify-center">
+                    {preview ? (
+                        <img
+                            src={preview}
+                            alt="preview"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                e.target.style.display = "none";
+                            }}
+                        />
+                    ) : (
+                        <ImageIcon className="w-5 h-5 text-zinc-700" />
+                    )}
+                </div>
+                <div className="flex-1 flex items-center gap-2">
+                    <input
+                        ref={inputRef}
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/gif"
+                        onChange={pick}
+                        className="hidden"
+                        data-testid="thumbnail-upload-input"
                     />
-                ) : (
-                    <ImageIcon className="w-5 h-5 text-zinc-700" />
-                )}
-            </div>
-            <div className="flex-1 flex items-center gap-2">
-                <input
-                    ref={inputRef}
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp,image/gif"
-                    onChange={pick}
-                    className="hidden"
-                    data-testid="thumbnail-upload-input"
-                />
-                <button
-                    type="button"
-                    onClick={() => inputRef.current?.click()}
-                    disabled={uploading}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-sm border border-white/10 text-white text-xs font-medium hover:border-[#3b82f6]/40 hover:text-[#60a5fa] disabled:opacity-50"
-                >
-                    <Upload className="w-3.5 h-3.5" />
-                    {uploading ? "Envoi…" : value ? "Changer" : "Uploader"}
-                </button>
-                {value && (
                     <button
                         type="button"
-                        onClick={() => onChange("")}
-                        className="text-xs text-rose-400 hover:underline"
+                        onClick={() => inputRef.current?.click()}
+                        disabled={uploading}
+                        className="inline-flex items-center gap-2 px-3 py-2 rounded-sm border border-white/10 text-white text-xs font-medium hover:border-[#3b82f6]/40 hover:text-[#60a5fa] disabled:opacity-50"
                     >
-                        Retirer
+                        <Upload className="w-3.5 h-3.5" />
+                        {uploading ? "Envoi…" : value ? "Changer" : "Uploader"}
                     </button>
-                )}
+                    {value && (
+                        <button
+                            type="button"
+                            onClick={() => onChange("")}
+                            className="text-xs text-rose-400 hover:underline"
+                        >
+                            Retirer
+                        </button>
+                    )}
+                </div>
             </div>
+            <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.18em] text-zinc-600">
+                <span className="h-px flex-1 bg-white/5" />
+                <span>ou colle une URL</span>
+                <span className="h-px flex-1 bg-white/5" />
+            </div>
+            <input
+                type="url"
+                data-testid="thumbnail-url-input"
+                value={value || ""}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder="https://i.imgur.com/xxxxx.jpg"
+                className="w-full px-3 py-2 rounded-sm bg-[#0a0a0a] border border-white/10 text-white text-sm focus:outline-none focus:border-[#3b82f6]/50"
+            />
+            <p className="text-[11px] text-zinc-500 leading-relaxed">
+                💡 Astuce : si le bouton upload ne marche pas (ex: sur ton Vercel sans clé Object Storage), uploade ton image gratuitement sur <a href="https://imgur.com" target="_blank" rel="noopener noreferrer" className="text-[#60a5fa] hover:underline">imgur.com</a>, fais clic droit sur l'image → "Copier l'adresse de l'image", et colle-la ici.
+            </p>
         </div>
     );
 }
