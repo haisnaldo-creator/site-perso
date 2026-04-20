@@ -35,6 +35,19 @@ Recréer un site pro inspiré de https://mouette.vercel.app/ dans un thème somb
 - Sécurité : bcrypt, protection contre suppression du dernier créateur / de soi-même
 - Tests : 22/22 backend pytest + frontend flows verified (iteration 1)
 
+## Update Feb 2026 — Iteration 2 (Comments + Uploads + Redesign)
+- **Redesign éditorial** : palette dark + bronze #d4a574 (fin du cyan "gamer"), fonts Instrument Serif + Geist, layouts asymétriques, suppression grain/glow/watermarks, lignes pointillées et accents italiques serif
+- **Commentaires publics avec modération** :
+  - `POST /api/comments` (public) — status par défaut `pending`
+  - `GET /api/comments/tutorial/{slug}` (public) — renvoie uniquement les commentaires `approved`
+  - `GET/PATCH/DELETE /api/admin/comments` (admin+creator) — modération avec filtres pending/approved/rejected
+  - UI : formulaire sous chaque tuto + nouvel onglet "Commentaires" dans l'admin avec boutons approuver/rejeter/supprimer
+- **Upload thumbnails via Emergent Object Storage** :
+  - `POST /api/admin/uploads` (admin) — accepte png/jpg/webp/gif, 3 Mo max
+  - `GET /api/files/{path}` (public) — sert les images avec cache 1h
+  - UI : bouton "Uploader" avec preview dans l'éditeur de tuto (remplace le champ URL)
+- **Tests** : 36/36 backend pytest (14 nouveaux) + frontend flows 100% green (iteration 2)
+
 ## Test Credentials
 - Créateur : `createur@mouette.gg` / `Mouette2026!`
 - Admin : `admin@mouette.gg` / `Admin2026!`
