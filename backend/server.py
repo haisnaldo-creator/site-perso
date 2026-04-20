@@ -10,10 +10,11 @@ import re
 import uuid
 import bcrypt
 import jwt
+import requests
 from datetime import datetime, timezone, timedelta
 from typing import List, Optional
 
-from fastapi import FastAPI, APIRouter, HTTPException, Depends, Request, Response, status
+from fastapi import FastAPI, APIRouter, HTTPException, Depends, Request, Response, UploadFile, File
 from fastapi.security import HTTPBearer
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -27,6 +28,58 @@ DB_NAME = os.environ["DB_NAME"]
 JWT_SECRET = os.environ["JWT_SECRET"]
 JWT_ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
+
+# ---------- Object storage ----------
+STORAGE_URL = "https://integrations.emergentagent.com/objstore/api/v1/storage"
+EMERGENT_KEY = os.environ.get("EMERGENT_LLM_KEY", "")
+APP_NAME = os.environ.get("APP_NAME", "mouette")
+MIME_TYPES = {
+    "jpg": "image/jpeg",
+    "jpeg": "image/jpeg",
+    "png": "image/png",
+    "gif": "image/gif",
+    "webp": "image/webp",
+}
+_storage_key = None
+
+
+def init_storage():
+    global _storage_key
+    if _storage_key:
+        return _storage_key
+    if not EMERGENT_KEY:
+        raise RuntimeError("EMERGENT_LLM_KEY missing")
+    resp = requests.post(
+        f"{STORAGE_URL}/init",
+        json={"emergent_key": EMERGENT_KEY},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    _storage_key = resp.json()["storage_key"]
+    return _storage_key
+
+
+def put_object(path: str, data: bytes, content_type: str) -> dict:
+    key = init_storage()
+    resp = requests.put(
+        f"{STORAGE_URL}/objects/{path}",
+        headers={"X-Storage-Key": key, "Content-Type": content_type},
+        data=data,
+        timeout=120,
+    )
+    resp.raise_for_status()
+    return resp.json()
+
+
+def get_object(path: str):
+    key = init_storage()
+    resp = requests.get(
+        f"{STORAGE_URL}/objects/{path}",
+        headers={"X-Storage-Key": key},
+        timeout=60,
+    )
+    resp.raise_for_status()
+    return resp.content, resp.headers.get("Content-Type", "application/octet-stream")
 
 client = AsyncIOMotorClient(MONGO_URL)
 db = client[DB_NAME]
@@ -312,6 +365,117 @@ async def admin_delete_tutorial(tutorial_id: str, _: dict = Depends(require_admi
 async def root():
     return {"app": "Tête de Mouette", "status": "online"}
 
+
+# ---------- Uploads (Admin) ----------
+@api_router.post("/admin/uploads")
+async def upload_image(file: UploadFile = File(...), _: dict = Depends(require_admin)):
+    ext = (file.filename or "").split(".")[-1].lower() if file.filename and "." in file.filename else "bin"
+    if ext not in MIME_TYPES:
+        raise HTTPException(status_code=400, detail="Format non supporté (jpg, png, webp, gif)")
+    content_type = MIME_TYPES[ext]
+    data = await file.read()
+    if len(data) > 3 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Fichier trop lourd (max 3 Mo)")
+    path = f"{APP_NAME}/thumbnails/{uuid.uuid4()}.{ext}"
+    try:
+        result = put_object(path, data, content_type)
+    except Exception as exc:
+        logger.exception("Upload failed")
+        raise HTTPException(status_code=500, detail=f"Upload échoué: {exc}")
+    await db.files.insert_one({
+        "id": str(uuid.uuid4()),
+        "storage_path": result["path"],
+        "content_type": content_type,
+        "size": result.get("size", len(data)),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    })
+    return {"path": result["path"], "url": f"/api/files/{result['path']}"}
+
+
+# Public — serves tutorial thumbnails without auth
+@api_router.get("/files/{path:path}")
+async def serve_file(path: str):
+    try:
+        data, content_type = get_object(path)
+    except Exception:
+        raise HTTPException(status_code=404, detail="Fichier introuvable")
+    return Response(content=data, media_type=content_type, headers={"Cache-Control": "public, max-age=3600"})
+
+
+# ---------- Comments ----------
+class CommentIn(BaseModel):
+    tutorial_slug: str = Field(min_length=1)
+    author: str = Field(min_length=1, max_length=60)
+    content: str = Field(min_length=2, max_length=1200)
+
+
+class CommentOut(BaseModel):
+    id: str
+    tutorial_slug: str
+    author: str
+    content: str
+    status: str
+    created_at: str
+
+
+@api_router.post("/comments", response_model=CommentOut, status_code=201)
+async def create_comment(body: CommentIn):
+    tutorial = await db.tutorials.find_one({"slug": body.tutorial_slug}, {"_id": 0, "id": 1})
+    if not tutorial:
+        raise HTTPException(status_code=404, detail="Tutoriel introuvable")
+    doc = {
+        "id": str(uuid.uuid4()),
+        "tutorial_slug": body.tutorial_slug,
+        "author": body.author.strip(),
+        "content": body.content.strip(),
+        "status": "pending",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.comments.insert_one(doc)
+    doc.pop("_id", None)
+    return doc
+
+
+@api_router.get("/comments/tutorial/{slug}", response_model=List[CommentOut])
+async def list_comments_public(slug: str):
+    comments = await db.comments.find(
+        {"tutorial_slug": slug, "status": "approved"},
+        {"_id": 0},
+    ).sort("created_at", -1).to_list(500)
+    return comments
+
+
+@api_router.get("/admin/comments", response_model=List[CommentOut])
+async def admin_list_comments(status_filter: Optional[str] = None, _: dict = Depends(require_admin)):
+    query = {}
+    if status_filter in ("pending", "approved", "rejected"):
+        query["status"] = status_filter
+    comments = await db.comments.find(query, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    return comments
+
+
+class CommentModerateIn(BaseModel):
+    status: str = Field(pattern="^(pending|approved|rejected)$")
+
+
+@api_router.patch("/admin/comments/{comment_id}", response_model=CommentOut)
+async def admin_moderate_comment(comment_id: str, body: CommentModerateIn, _: dict = Depends(require_admin)):
+    comment = await db.comments.find_one({"id": comment_id}, {"_id": 0})
+    if not comment:
+        raise HTTPException(status_code=404, detail="Commentaire introuvable")
+    await db.comments.update_one({"id": comment_id}, {"$set": {"status": body.status}})
+    comment["status"] = body.status
+    return comment
+
+
+@api_router.delete("/admin/comments/{comment_id}", status_code=204)
+async def admin_delete_comment(comment_id: str, _: dict = Depends(require_admin)):
+    result = await db.comments.delete_one({"id": comment_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Commentaire introuvable")
+    return Response(status_code=204)
+
+
 # ---------- Seed ----------
 async def seed_users():
     creator_email = os.environ["CREATOR_EMAIL"].lower().strip()
@@ -370,6 +534,13 @@ async def on_startup():
     await db.users.create_index("id", unique=True)
     await db.tutorials.create_index("slug", unique=True)
     await db.tutorials.create_index("id", unique=True)
+    await db.comments.create_index("tutorial_slug")
+    await db.comments.create_index("status")
+    try:
+        init_storage()
+        logger.info("Emergent storage initialized")
+    except Exception as exc:
+        logger.warning(f"Storage init skipped: {exc}")
     await seed_users()
     await seed_tutorials()
 

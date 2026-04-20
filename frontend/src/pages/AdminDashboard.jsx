@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { api, formatApiError } from "../lib/api";
 import {
@@ -12,6 +12,10 @@ import {
     Save,
     Eye,
     EyeOff,
+    MessageSquare,
+    Check,
+    Upload,
+    Image as ImageIcon,
 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 
@@ -21,6 +25,7 @@ export default function AdminDashboard() {
 
     const tabs = [
         { id: "tutorials", label: "Tutoriels", icon: BookOpen },
+        { id: "comments", label: "Commentaires", icon: MessageSquare },
         ...(user?.role === "creator"
             ? [{ id: "users", label: "Utilisateurs", icon: UsersIcon }]
             : []),
@@ -32,31 +37,31 @@ export default function AdminDashboard() {
             <section className="pt-14 pb-8 border-b border-white/5">
                 <div className="max-w-7xl mx-auto px-5 md:px-8">
                     <div className="flex items-center gap-2 mb-3">
-                        <Shield className="w-4 h-4 text-cyan-400" />
-                        <span className="text-[11px] uppercase tracking-[0.2em] text-cyan-400 font-semibold">
+                        <Shield className="w-4 h-4 text-[#d4a574]" />
+                        <span className="text-[11px] uppercase tracking-[0.2em] text-[#d4a574] font-semibold">
                             {user?.role === "creator" ? "Créateur" : "Admin"}
                         </span>
                     </div>
-                    <h1 className="font-display font-black text-3xl md:text-5xl text-white tracking-tight">
+                    <h1 className="font-display text-3xl md:text-5xl text-white tracking-tight">
                         Tableau de bord
                     </h1>
                     <p className="text-zinc-500 mt-2">
                         Bienvenue {user?.name}. Gère le contenu du site depuis ici.
                     </p>
 
-                    <div className="flex items-center gap-1 mt-8 border-b border-white/5">
+                    <div className="flex items-center gap-1 mt-10 border-b border-white/5">
                         {tabs.map((t) => (
                             <button
                                 key={t.id}
                                 data-testid={`admin-tab-${t.id}`}
                                 onClick={() => setTab(t.id)}
-                                className={`px-4 py-3 text-sm font-semibold uppercase tracking-wider border-b-2 transition-colors flex items-center gap-2 ${
+                                className={`px-5 py-3 text-[11px] font-medium uppercase tracking-[0.16em] border-b-2 transition-colors flex items-center gap-2 ${
                                     tab === t.id
-                                        ? "text-cyan-400 border-cyan-500"
+                                        ? "text-[#d4a574] border-[#d4a574]"
                                         : "text-zinc-500 border-transparent hover:text-white"
                                 }`}
                             >
-                                <t.icon className="w-4 h-4" />
+                                <t.icon className="w-4 h-4" strokeWidth={1.5} />
                                 {t.label}
                             </button>
                         ))}
@@ -67,6 +72,7 @@ export default function AdminDashboard() {
             <section className="py-10">
                 <div className="max-w-7xl mx-auto px-5 md:px-8">
                     {tab === "tutorials" && <TutorialsManager />}
+                    {tab === "comments" && <CommentsManager />}
                     {tab === "users" && user?.role === "creator" && <UsersManager />}
                 </div>
             </section>
@@ -102,7 +108,7 @@ function TutorialsManager() {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h2 className="font-display font-bold text-xl text-white">
+                    <h2 className="font-display text-xl text-white">
                         Tutoriels ({items.length})
                     </h2>
                     <p className="text-sm text-zinc-500">
@@ -112,7 +118,7 @@ function TutorialsManager() {
                 <button
                     data-testid="new-tutorial-btn"
                     onClick={() => setEditing("new")}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-cyan-500 text-black text-xs font-bold uppercase tracking-wider hover:bg-cyan-400 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687] transition-colors"
                 >
                     <Plus className="w-4 h-4" />
                     Nouveau tuto
@@ -172,7 +178,7 @@ function TutorialsManager() {
                                     <button
                                         data-testid={`edit-tutorial-${t.slug}`}
                                         onClick={() => setEditing(t)}
-                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-cyan-400 hover:bg-cyan-500/10 text-xs font-semibold"
+                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-[#d4a574] hover:bg-[#d4a574]/10 text-xs font-semibold"
                                     >
                                         <Pencil className="w-3 h-3" />
                                         Éditer
@@ -272,7 +278,7 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
             <div className="min-h-screen flex items-start justify-center p-4 md:p-8">
                 <div className="w-full max-w-3xl bg-[#0b0b12] border border-white/10 rounded-md shadow-2xl">
                     <div className="flex items-center justify-between p-5 border-b border-white/5">
-                        <h3 className="font-display font-bold text-xl text-white">
+                        <h3 className="font-display text-xl text-white">
                             {tutorial ? "Éditer le tuto" : "Nouveau tuto"}
                         </h3>
                         <button
@@ -336,12 +342,10 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                                     placeholder="10 min"
                                 />
                             </Field>
-                            <Field label="Thumbnail (URL)">
-                                <input
-                                    value={form.thumbnail || ""}
-                                    onChange={(e) => update("thumbnail", e.target.value)}
-                                    className="inp"
-                                    placeholder="https://..."
+                            <Field label="Image de couverture">
+                                <ThumbnailUpload
+                                    value={form.thumbnail}
+                                    onChange={(v) => update("thumbnail", v)}
                                 />
                             </Field>
                         </div>
@@ -374,7 +378,7 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                                 </label>
                                 <button
                                     onClick={addStep}
-                                    className="text-xs text-cyan-400 font-semibold hover:underline"
+                                    className="text-xs text-[#d4a574] font-semibold hover:underline"
                                 >
                                     + Ajouter
                                 </button>
@@ -386,7 +390,7 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                                         className="p-4 rounded bg-[#05050a] border border-white/5 space-y-2"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs text-cyan-400 font-bold uppercase">
+                                            <span className="text-xs text-[#d4a574] font-bold uppercase">
                                                 Étape {s.number}
                                             </span>
                                             <button
@@ -463,7 +467,7 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                             data-testid="save-tutorial-btn"
                             onClick={save}
                             disabled={saving}
-                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-cyan-500 text-black text-xs font-bold uppercase tracking-wider hover:bg-cyan-400 disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687] disabled:opacity-50"
                         >
                             <Save className="w-4 h-4" />
                             {saving ? "Enregistrement…" : "Enregistrer"}
@@ -494,7 +498,7 @@ function Toggle({ label, value, onChange }) {
                 type="button"
                 onClick={() => onChange(!value)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    value ? "bg-cyan-500" : "bg-zinc-700"
+                    value ? "bg-[#d4a574]" : "bg-zinc-700"
                 }`}
             >
                 <span
@@ -537,7 +541,7 @@ function UsersManager() {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h2 className="font-display font-bold text-xl text-white">
+                    <h2 className="font-display text-xl text-white">
                         Utilisateurs ({users.length})
                     </h2>
                     <p className="text-sm text-zinc-500">
@@ -547,7 +551,7 @@ function UsersManager() {
                 <button
                     data-testid="new-user-btn"
                     onClick={() => setEditing("new")}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-cyan-500 text-black text-xs font-bold uppercase tracking-wider hover:bg-cyan-400"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687]"
                 >
                     <Plus className="w-4 h-4" />
                     Nouvel utilisateur
@@ -580,7 +584,7 @@ function UsersManager() {
                                     <span
                                         className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold ${
                                             u.role === "creator"
-                                                ? "bg-cyan-500/15 text-cyan-400 border border-cyan-500/30"
+                                                ? "bg-[#d4a574]/15 text-[#d4a574] border border-[#d4a574]/30"
                                                 : "bg-white/5 text-zinc-300 border border-white/10"
                                         }`}
                                     >
@@ -591,7 +595,7 @@ function UsersManager() {
                                     <button
                                         data-testid={`edit-user-${u.email}`}
                                         onClick={() => setEditing(u)}
-                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-cyan-400 hover:bg-cyan-500/10 text-xs font-semibold"
+                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-[#d4a574] hover:bg-[#d4a574]/10 text-xs font-semibold"
                                     >
                                         <Pencil className="w-3 h-3" />
                                         Éditer
@@ -666,7 +670,7 @@ function UserEditor({ user, onClose, onSaved }) {
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
             <div className="w-full max-w-md bg-[#0b0b12] border border-white/10 rounded-md">
                 <div className="flex items-center justify-between p-5 border-b border-white/5">
-                    <h3 className="font-display font-bold text-lg text-white">
+                    <h3 className="font-display text-lg text-white">
                         {user ? "Éditer l'utilisateur" : "Nouvel utilisateur"}
                     </h3>
                     <button
@@ -742,7 +746,7 @@ function UserEditor({ user, onClose, onSaved }) {
                         data-testid="save-user-btn"
                         onClick={save}
                         disabled={saving}
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-cyan-500 text-black text-xs font-bold uppercase tracking-wider hover:bg-cyan-400 disabled:opacity-50"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687] disabled:opacity-50"
                     >
                         <Save className="w-4 h-4" />
                         Enregistrer
@@ -751,5 +755,248 @@ function UserEditor({ user, onClose, onSaved }) {
             </div>
             <style>{`.inp{width:100%;padding:0.6rem 0.75rem;border-radius:0.375rem;background:#05050a;border:1px solid rgba(255,255,255,0.08);color:#fff;font-size:0.875rem;outline:none}.inp:focus{border-color:rgba(0,229,255,0.5)}`}</style>
         </div>
+    );
+}
+
+
+// ============ THUMBNAIL UPLOAD ============
+function ThumbnailUpload({ value, onChange }) {
+    const inputRef = useRef(null);
+    const [uploading, setUploading] = useState(false);
+
+    const preview = !value
+        ? null
+        : value.startsWith("http") || value.startsWith("/")
+        ? value
+        : `${process.env.REACT_APP_BACKEND_URL}/api/files/${value}`;
+
+    async function pick(e) {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (file.size > 3 * 1024 * 1024) {
+            toast.error("Image trop lourde (max 3 Mo)");
+            return;
+        }
+        const fd = new FormData();
+        fd.append("file", file);
+        setUploading(true);
+        try {
+            const res = await api.post("/admin/uploads", fd, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            onChange(res.data.path);
+            toast.success("Image uploadée");
+        } catch (err) {
+            toast.error(formatApiError(err));
+        } finally {
+            setUploading(false);
+            if (inputRef.current) inputRef.current.value = "";
+        }
+    }
+
+    return (
+        <div className="flex items-center gap-4">
+            <div className="w-24 h-16 shrink-0 rounded-sm bg-[#0a0a0a] border border-white/10 overflow-hidden flex items-center justify-center">
+                {preview ? (
+                    <img
+                        src={preview}
+                        alt="preview"
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <ImageIcon className="w-5 h-5 text-zinc-700" />
+                )}
+            </div>
+            <div className="flex-1 flex items-center gap-2">
+                <input
+                    ref={inputRef}
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif"
+                    onChange={pick}
+                    className="hidden"
+                    data-testid="thumbnail-upload-input"
+                />
+                <button
+                    type="button"
+                    onClick={() => inputRef.current?.click()}
+                    disabled={uploading}
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-sm border border-white/10 text-white text-xs font-medium hover:border-[#d4a574]/40 hover:text-[#d4a574] disabled:opacity-50"
+                >
+                    <Upload className="w-3.5 h-3.5" />
+                    {uploading ? "Envoi…" : value ? "Changer" : "Uploader"}
+                </button>
+                {value && (
+                    <button
+                        type="button"
+                        onClick={() => onChange("")}
+                        className="text-xs text-rose-400 hover:underline"
+                    >
+                        Retirer
+                    </button>
+                )}
+            </div>
+        </div>
+    );
+}
+
+// ============ COMMENTS MANAGER ============
+function CommentsManager() {
+    const [comments, setComments] = useState([]);
+    const [filter, setFilter] = useState("pending");
+
+    async function load() {
+        const params = filter === "all" ? {} : { status_filter: filter };
+        const r = await api.get("/admin/comments", { params });
+        setComments(r.data);
+    }
+    useEffect(() => {
+        load();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filter]);
+
+    async function moderate(id, status) {
+        try {
+            await api.patch(`/admin/comments/${id}`, { status });
+            toast.success(status === "approved" ? "Commentaire approuvé" : "Commentaire rejeté");
+            load();
+        } catch (err) {
+            toast.error(formatApiError(err));
+        }
+    }
+    async function remove(id) {
+        if (!window.confirm("Supprimer ce commentaire ?")) return;
+        try {
+            await api.delete(`/admin/comments/${id}`);
+            toast.success("Commentaire supprimé");
+            load();
+        } catch (err) {
+            toast.error(formatApiError(err));
+        }
+    }
+
+    const counts = {
+        pending: comments.filter((c) => c.status === "pending").length,
+        approved: comments.filter((c) => c.status === "approved").length,
+        rejected: comments.filter((c) => c.status === "rejected").length,
+    };
+
+    return (
+        <div data-testid="comments-manager">
+            <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+                <div>
+                    <h2 className="font-display text-2xl text-white">
+                        Modération
+                    </h2>
+                    <p className="text-sm text-zinc-500">
+                        Approuve, rejette ou supprime les commentaires laissés par les visiteurs.
+                    </p>
+                </div>
+                <div className="flex items-center gap-1 p-1 rounded-sm bg-[#0c0c0c] border border-white/5">
+                    {[
+                        { id: "pending", label: "En attente" },
+                        { id: "approved", label: "Approuvés" },
+                        { id: "rejected", label: "Rejetés" },
+                        { id: "all", label: "Tous" },
+                    ].map((f) => (
+                        <button
+                            key={f.id}
+                            data-testid={`comment-filter-${f.id}`}
+                            onClick={() => setFilter(f.id)}
+                            className={`px-3 py-1.5 rounded-sm text-[11px] font-medium uppercase tracking-[0.12em] transition-colors ${
+                                filter === f.id
+                                    ? "bg-[#d4a574] text-black"
+                                    : "text-zinc-500 hover:text-white"
+                            }`}
+                        >
+                            {f.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {comments.length === 0 ? (
+                <div className="text-center py-20 border border-dashed border-white/5 rounded-sm">
+                    <MessageSquare className="w-8 h-8 text-zinc-700 mx-auto mb-3" strokeWidth={1.2} />
+                    <div className="text-zinc-500 text-sm">Aucun commentaire à cet état.</div>
+                </div>
+            ) : (
+                <div className="space-y-3">
+                    {comments.map((c) => (
+                        <div
+                            key={c.id}
+                            data-testid={`admin-comment-${c.id}`}
+                            className="p-5 rounded-sm bg-[#0c0c0c] border border-white/5"
+                        >
+                            <div className="flex items-start gap-4">
+                                <div className="w-10 h-10 shrink-0 rounded-full bg-[#d4a574]/10 border border-[#d4a574]/25 flex items-center justify-center text-[#d4a574] font-display italic text-lg">
+                                    {c.author.slice(0, 1).toUpperCase()}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                        <span className="font-medium text-white text-sm">
+                                            {c.author}
+                                        </span>
+                                        <span className="text-zinc-700">·</span>
+                                        <span className="text-xs text-zinc-500 font-mono">
+                                            {c.tutorial_slug}
+                                        </span>
+                                        <StatusBadge status={c.status} />
+                                    </div>
+                                    <p className="text-[15px] text-zinc-300 leading-relaxed whitespace-pre-wrap break-words mb-3">
+                                        {c.content}
+                                    </p>
+                                    <div className="flex items-center gap-2">
+                                        {c.status !== "approved" && (
+                                            <button
+                                                data-testid={`approve-comment-${c.id}`}
+                                                onClick={() => moderate(c.id, "approved")}
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium hover:bg-emerald-500/15"
+                                            >
+                                                <Check className="w-3 h-3" />
+                                                Approuver
+                                            </button>
+                                        )}
+                                        {c.status !== "rejected" && (
+                                            <button
+                                                data-testid={`reject-comment-${c.id}`}
+                                                onClick={() => moderate(c.id, "rejected")}
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-zinc-500/10 border border-zinc-500/30 text-zinc-300 text-xs font-medium hover:bg-zinc-500/15"
+                                            >
+                                                <X className="w-3 h-3" />
+                                                Rejeter
+                                            </button>
+                                        )}
+                                        <button
+                                            data-testid={`delete-comment-${c.id}`}
+                                            onClick={() => remove(c.id)}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-rose-400 text-xs font-medium hover:bg-rose-500/10"
+                                        >
+                                            <Trash2 className="w-3 h-3" />
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+function StatusBadge({ status }) {
+    const map = {
+        pending: { label: "En attente", cls: "bg-amber-500/10 text-amber-400 border-amber-500/30" },
+        approved: { label: "Approuvé", cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30" },
+        rejected: { label: "Rejeté", cls: "bg-zinc-500/10 text-zinc-400 border-zinc-500/30" },
+    };
+    const s = map[status] || map.pending;
+    return (
+        <span
+            className={`inline-flex items-center px-2 py-0.5 rounded border text-[9px] uppercase tracking-[0.16em] font-medium ${s.cls}`}
+        >
+            {s.label}
+        </span>
     );
 }

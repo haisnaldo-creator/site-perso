@@ -32,61 +32,72 @@ const CATEGORY_LABELS = {
     manette: "Manette",
 };
 
+function resolveThumb(raw) {
+    if (!raw) return null;
+    if (raw.startsWith("http") || raw.startsWith("/")) return raw;
+    // storage path returned by /api/admin/uploads
+    return `${process.env.REACT_APP_BACKEND_URL}/api/files/${raw}`;
+}
+
 export default function TutorialCard({ tutorial, index = 0 }) {
     const Icon = ICONS[tutorial.category] || Gamepad2;
+    const thumb = resolveThumb(tutorial.thumbnail);
     return (
         <Link
             to={`/tutoriels/${tutorial.slug}`}
             data-testid={`tutorial-card-${tutorial.slug}`}
-            className="group relative flex flex-col bg-[#0b0b12] border border-white/5 rounded-md overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/40 hover:shadow-[0_10px_40px_-10px_rgba(0,229,255,0.25)] fade-up"
+            className="group relative flex flex-col bg-[#0c0c0c] border border-white/5 overflow-hidden transition-all duration-500 hover:border-[#d4a574]/30 fade-up"
             style={{ animationDelay: `${index * 60}ms` }}
         >
             {/* Thumbnail */}
-            <div className="relative aspect-[16/10] overflow-hidden bg-[#07070c]">
-                {tutorial.thumbnail ? (
+            <div className="relative aspect-[16/10] overflow-hidden bg-[#0a0a0a]">
+                {thumb ? (
                     <img
-                        src={tutorial.thumbnail}
+                        src={thumb}
                         alt={tutorial.title}
-                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                        className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-700 grayscale-[30%] group-hover:grayscale-0"
                         loading="lazy"
                     />
                 ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-cyan-500/10 to-transparent" />
+                    <div className="w-full h-full bg-gradient-to-br from-[#d4a574]/8 to-transparent" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-transparent to-transparent" />
-                <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded bg-black/60 backdrop-blur-md border border-white/10">
-                    <Icon className="w-3 h-3 text-cyan-400" />
-                    <span className="text-[10px] uppercase tracking-wider font-semibold text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-transparent to-transparent" />
+                <div className="absolute top-4 left-4 flex items-center gap-1.5">
+                    <Icon className="w-3 h-3 text-[#d4a574]" strokeWidth={1.8} />
+                    <span className="text-[10px] uppercase tracking-[0.18em] font-medium text-white/90">
                         {CATEGORY_LABELS[tutorial.category] || tutorial.category}
                     </span>
                 </div>
                 {tutorial.featured && (
-                    <div className="absolute top-3 right-3 px-2 py-1 rounded bg-cyan-500 text-black text-[10px] font-black uppercase tracking-wider">
-                        Populaire
+                    <div className="absolute top-4 right-4 px-2 py-0.5 border border-[#d4a574]/40 text-[9px] font-medium uppercase tracking-[0.2em] text-[#d4a574]">
+                        Sélection
                     </div>
                 )}
             </div>
 
             {/* Content */}
-            <div className="p-5 flex-1 flex flex-col">
-                <h3 className="font-display font-bold text-white text-lg leading-tight mb-2 group-hover:text-cyan-400 transition-colors">
+            <div className="p-6 flex-1 flex flex-col">
+                <h3 className="font-display text-[22px] leading-[1.15] text-white mb-3 tracking-tight group-hover:text-[#d4a574] transition-colors text-balance">
                     {tutorial.title}
                 </h3>
-                <p className="text-sm text-zinc-500 leading-relaxed line-clamp-2 mb-4">
+                <p className="text-sm text-zinc-500 leading-[1.7] line-clamp-2 mb-6">
                     {tutorial.description}
                 </p>
                 <div className="mt-auto flex items-center justify-between text-xs">
                     <div className="flex items-center gap-3 text-zinc-500">
-                        <div className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
+                        <div className="flex items-center gap-1.5">
+                            <Clock className="w-3 h-3" strokeWidth={1.5} />
                             <span>{tutorial.duration}</span>
                         </div>
                         <span className="text-zinc-700">·</span>
-                        <span className="uppercase tracking-wider font-semibold">
+                        <span className="uppercase tracking-[0.12em]">
                             {tutorial.difficulty}
                         </span>
                     </div>
-                    <ArrowUpRight className="w-4 h-4 text-zinc-600 group-hover:text-cyan-400 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all" />
+                    <ArrowUpRight
+                        className="w-4 h-4 text-zinc-600 group-hover:text-[#d4a574] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all"
+                        strokeWidth={1.5}
+                    />
                 </div>
             </div>
         </Link>

@@ -37,13 +37,13 @@ export default function Login() {
             <div className="absolute inset-0 bg-grid opacity-25 pointer-events-none" />
             <div className="relative w-full max-w-md">
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 mb-6">
-                        <Shield className="w-3.5 h-3.5 text-cyan-400" />
-                        <span className="text-[11px] uppercase tracking-[0.2em] text-cyan-400 font-semibold">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#d4a574]/10 border border-[#d4a574]/30 mb-6">
+                        <Shield className="w-3.5 h-3.5 text-[#d4a574]" />
+                        <span className="text-[11px] uppercase tracking-[0.2em] text-[#d4a574] font-semibold">
                             Espace admin
                         </span>
                     </div>
-                    <h1 className="font-display font-black text-3xl md:text-4xl text-white tracking-tight mb-2">
+                    <h1 className="font-display text-3xl md:text-4xl text-white tracking-tight mb-2">
                         Connexion
                     </h1>
                     <p className="text-sm text-zinc-500">
@@ -66,7 +66,7 @@ export default function Login() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-3 rounded-md bg-[#05050a] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                            className="w-full px-4 py-3 rounded-md bg-[#05050a] border border-white/10 text-white text-sm focus:outline-none focus:border-[#d4a574]/50"
                             placeholder="createur@mouette.gg"
                         />
                     </div>
@@ -81,7 +81,7 @@ export default function Login() {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-4 py-3 rounded-md bg-[#05050a] border border-white/10 text-white text-sm focus:outline-none focus:border-cyan-500/50"
+                            className="w-full px-4 py-3 rounded-md bg-[#05050a] border border-white/10 text-white text-sm focus:outline-none focus:border-[#d4a574]/50"
                             placeholder="••••••••"
                         />
                     </div>
@@ -100,7 +100,7 @@ export default function Login() {
                         data-testid="login-submit-btn"
                         type="submit"
                         disabled={submitting}
-                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-cyan-500 text-black text-sm font-bold uppercase tracking-wider hover:bg-cyan-400 transition-colors disabled:opacity-50"
+                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-[#d4a574] text-black text-sm font-bold uppercase tracking-wider hover:bg-[#e0b687] transition-colors disabled:opacity-50"
                     >
                         <LogIn className="w-4 h-4" />
                         {submitting ? "Connexion…" : "Se connecter"}
@@ -109,7 +109,7 @@ export default function Login() {
                     <div className="pt-3 border-t border-white/5 text-center">
                         <Link
                             to="/"
-                            className="text-xs text-zinc-500 hover:text-cyan-400"
+                            className="text-xs text-zinc-500 hover:text-[#d4a574]"
                         >
                             ← Retour à l'accueil
                         </Link>

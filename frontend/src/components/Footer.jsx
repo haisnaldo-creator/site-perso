@@ -10,16 +10,16 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-5 md:px-8 py-14 grid md:grid-cols-4 gap-10">
                 <div className="md:col-span-2">
                     <div className="flex items-center gap-2.5 mb-4">
-                        <div className="w-9 h-9 rounded-md bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
-                            <span className="text-cyan-400 font-display font-black text-lg">
+                        <div className="w-9 h-9 rounded-md bg-[#d4a574]/10 border border-[#d4a574]/30 flex items-center justify-center">
+                            <span className="text-[#d4a574] font-display text-lg">
                                 TM
                             </span>
                         </div>
                         <div>
-                            <div className="font-display font-extrabold text-white">
+                            <div className="font-display text-white">
                                 Tête de Mouette
                             </div>
-                            <div className="text-[10px] uppercase tracking-[0.18em] text-cyan-400/80 font-medium">
+                            <div className="text-[10px] uppercase tracking-[0.18em] text-[#d4a574]/70 font-medium">
                                 FiveM Hub
                             </div>
                         </div>
@@ -27,7 +27,7 @@ export default function Footer() {
                     <p className="text-sm text-zinc-500 max-w-md leading-relaxed">
                         Le hub de tutos FiveM, ReShade et optimisation PC. Guides testés
                         en conditions réelles par{" "}
-                        <span className="text-cyan-400">tête de mouette</span>.
+                        <span className="text-[#d4a574]">tête de mouette</span>.
                     </p>
                 </div>
 
@@ -39,7 +39,7 @@ export default function Footer() {
                         <li>
                             <Link
                                 to="/tutoriels"
-                                className="text-zinc-400 hover:text-cyan-400"
+                                className="text-zinc-400 hover:text-[#d4a574]"
                             >
                                 Tous les tutoriels
                             </Link>
@@ -47,7 +47,7 @@ export default function Footer() {
                         <li>
                             <Link
                                 to="/categories"
-                                className="text-zinc-400 hover:text-cyan-400"
+                                className="text-zinc-400 hover:text-[#d4a574]"
                             >
                                 Catégories
                             </Link>
@@ -55,7 +55,7 @@ export default function Footer() {
                         <li>
                             <Link
                                 to="/a-propos"
-                                className="text-zinc-400 hover:text-cyan-400"
+                                className="text-zinc-400 hover:text-[#d4a574]"
                             >
                                 À propos
                             </Link>
@@ -71,7 +71,7 @@ export default function Footer() {
                         <li>
                             <Link
                                 to="/tutoriels/installer-pack-graphique-fivem"
-                                className="text-zinc-400 hover:text-cyan-400"
+                                className="text-zinc-400 hover:text-[#d4a574]"
                             >
                                 Pack graphique
                             </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
                         <li>
                             <Link
                                 to="/tutoriels/installer-reshade-fivem"
-                                className="text-zinc-400 hover:text-cyan-400"
+                                className="text-zinc-400 hover:text-[#d4a574]"
                             >
                                 ReShade
                             </Link>
@@ -87,7 +87,7 @@ export default function Footer() {
                         <li>
                             <Link
                                 to="/tutoriels/optimiser-windows-fivem-fps"
-                                className="text-zinc-400 hover:text-cyan-400"
+                                className="text-zinc-400 hover:text-[#d4a574]"
                             >
                                 +30 FPS Windows
                             </Link>

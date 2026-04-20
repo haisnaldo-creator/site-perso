@@ -16,7 +16,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 function Layout({ children }) {
     return (
-        <div className="App grain min-h-screen flex flex-col">
+        <div className="App min-h-screen flex flex-col">
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />

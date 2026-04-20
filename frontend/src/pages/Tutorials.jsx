@@ -39,10 +39,10 @@ export default function Tutorials() {
         <div data-testid="tutorials-page" className="min-h-screen">
             <section className="pt-14 pb-10 border-b border-white/5">
                 <div className="max-w-7xl mx-auto px-5 md:px-8">
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-cyan-400 font-semibold mb-3">
+                    <div className="text-[11px] uppercase tracking-[0.2em] text-[#d4a574] font-semibold mb-3">
                         · Bibliothèque
                     </div>
-                    <h1 className="font-display font-black text-4xl md:text-6xl text-white tracking-tight mb-4">
+                    <h1 className="font-display text-4xl md:text-6xl text-white tracking-tight mb-4">
                         Tous les tutoriels
                     </h1>
                     <p className="text-zinc-400 max-w-2xl">
@@ -61,7 +61,7 @@ export default function Tutorials() {
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
                             placeholder="Rechercher un tuto…"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-md bg-[#0b0b12] border border-white/10 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-cyan-500/50"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-md bg-[#0b0b12] border border-white/10 text-white text-sm placeholder:text-zinc-600 focus:outline-none focus:border-[#d4a574]/50"
                         />
                     </div>
                     <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
@@ -114,8 +114,8 @@ function CategoryPill({ active, onClick, label, testId }) {
             data-testid={testId}
             className={`shrink-0 px-3.5 py-2 rounded-md text-xs font-semibold uppercase tracking-wider transition-all ${
                 active
-                    ? "bg-cyan-500 text-black"
-                    : "bg-[#0b0b12] text-zinc-400 border border-white/10 hover:border-cyan-500/40 hover:text-white"
+                    ? "bg-[#d4a574] text-black"
+                    : "bg-[#0b0b12] text-zinc-400 border border-white/10 hover:border-[#d4a574]/40 hover:text-white"
             }`}
         >
             {label}

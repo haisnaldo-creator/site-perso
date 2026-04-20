@@ -20,11 +20,11 @@ export default function ProtectedRoute({ children, requireCreator = false }) {
         return (
             <div className="min-h-[50vh] flex items-center justify-center">
                 <div className="max-w-md text-center px-6">
-                    <div className="text-rose-400 font-display font-bold text-xl mb-2">
+                    <div className="text-rose-400 font-display text-xl mb-2">
                         Accès refusé
                     </div>
                     <p className="text-zinc-500 text-sm">
-                        Seul le rôle <span className="text-cyan-400">Créateur</span>{" "}
+                        Seul le rôle <span className="text-[#d4a574]">Créateur</span>{" "}
                         peut accéder à cette section.
                     </p>
                 </div>

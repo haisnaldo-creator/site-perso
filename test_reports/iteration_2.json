@@ -1,0 +1,41 @@
+{
+  "summary": "Iteration 2 (Comments + Uploads + Editorial Redesign) fully tested. 36/36 backend pytest tests pass (14 new for comments/uploads + 22 regression). Frontend flows all green: public comment submit shows 'en attente de validation' success toast and is kept out of public list until approved; admin dashboard shows new Commentaires tab with En attente/Approuvés/Rejetés/Tous filters and functional approve/reject/delete buttons; thumbnail upload replaces URL input, file uploaded to Emergent Object Storage, 'Image uploadée' toast appears and preview image renders via /api/files/mouette/thumbnails/<uuid>.png. Object-storage served image returns correct content-type and exact byte content. Regression: login, tutorial CRUD, user CRUD for creator all still work.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/admin/uploads", "issue": "Returns 200 instead of 201 (no status_code=201 on route). Other POST-create endpoints (/comments, /tutorials, /users) correctly return 201. Cosmetic consistency nit."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_comments_uploads.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Optional: set status_code=201 on /api/admin/uploads for consistency with other create endpoints.",
+    "Optional (carried from iter 1): mirror 'update-if-password-changed' seed logic to admin account; replace CORS '*' with explicit origins when allow_credentials=True."
+  ],
+  "critical_code_review_comments": [
+    "upload_image: file.read() is awaited in full before size check; for very large bodies this holds them in memory. Acceptable given the 3 MB cap but consider FastAPI's streaming or content-length pre-check to short-circuit before reading.",
+    "get_object / serve_file: responses are not cached locally — every /api/files/{path} hit round-trips to Emergent Object Storage. Cache-Control: public,max-age=3600 is set on the response, which helps browsers but not server load. Consider an in-process LRU for hot thumbnails.",
+    "CommentIn validates 2..1200 chars but does not sanitize HTML. Displayed as whitespace-pre-line in <p> so React escapes it, OK for now, but note if ever rendered with dangerouslySetInnerHTML.",
+    "admin_list_comments silently ignores status_filter values outside {pending,approved,rejected} (treats as 'all'). Consider 400 on invalid enum for clearer API contract.",
+    "No rate-limit on POST /api/comments (public) — spam risk; consider a simple IP throttle or hCaptcha before going live.",
+    "File-size check in uploads happens after full upload is received. Add client-side + Content-Length check to reject early."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_comments_uploads.py (new — 14 tests)"
+  ],
+  "success_rate": {"backend": "100% (36/36)", "frontend": "100% of targeted flows"},
+  "test_credentials": "Creator: createur@mouette.gg / Mouette2026! ; Admin: admin@mouette.gg / Admin2026! (verified via /api/auth/login during fixtures)",
+  "seed_data_creation": "No persistent seed. TEST_ prefixed comments were created during moderation flow tests and cleaned up (deleted) at end of each test. A 67-byte 1x1 PNG was uploaded to object storage via the admin upload test and retrieved via /api/files/ — not cleaned up but negligible size.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Tutorial detail route is /tutoriels/{slug} (plural). Sample slug used for comment tests: 'changer-luminosite-reshade'. Admin Commentaires tab data-testid is admin-tab-comments; moderation manager is data-testid=comments-manager; filter buttons are comment-filter-{pending|approved|rejected|all}; card testid is admin-comment-{id} with approve-comment-{id}/reject-comment-{id}/delete-comment-{id}. Thumbnail upload input is data-testid=thumbnail-upload-input (visually hidden file input — use set_input_files, not click). Upload response shape: {path: 'mouette/thumbnails/<uuid>.<ext>', url: '/api/files/<path>'}. Public comments default status=pending; only approved appear on /api/comments/tutorial/{slug}.",
+  "rca of the issue": "No issues to RCA. All flows pass."
+}
