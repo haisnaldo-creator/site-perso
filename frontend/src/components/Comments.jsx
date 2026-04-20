@@ -56,7 +56,7 @@ export default function Comments({ slug }) {
                     <div className="text-[10px] uppercase tracking-[0.24em] text-zinc-500 font-medium mb-2">
                         · Discussion
                     </div>
-                    <h3 className="font-display text-3xl md:text-4xl text-white tracking-tight">
+                    <h3 className="font-display text-3xl md:text-4xl font-bold text-white tracking-tight">
                         Commentaires
                         {comments.length > 0 && (
                             <span className="serif-accent text-2xl ml-3">
@@ -88,7 +88,7 @@ export default function Comments({ slug }) {
                             maxLength={60}
                             required
                             placeholder="Ex : Jean_RP"
-                            className="w-full px-4 py-2.5 rounded-sm bg-[#0a0a0a] border border-white/10 text-white text-sm focus:outline-none focus:border-[#d4a574]/50"
+                            className="w-full px-4 py-2.5 rounded-sm bg-[#0a0a0a] border border-white/10 text-white text-sm focus:outline-none focus:border-[#3b82f6]/50"
                         />
                     </div>
                     <div>
@@ -103,7 +103,7 @@ export default function Comments({ slug }) {
                             rows={3}
                             required
                             placeholder="Partage ton retour, pose une question…"
-                            className="w-full px-4 py-2.5 rounded-sm bg-[#0a0a0a] border border-white/10 text-white text-sm focus:outline-none focus:border-[#d4a574]/50 resize-y"
+                            className="w-full px-4 py-2.5 rounded-sm bg-[#0a0a0a] border border-white/10 text-white text-sm focus:outline-none focus:border-[#3b82f6]/50 resize-y"
                         />
                     </div>
                 </div>
@@ -139,7 +139,7 @@ export default function Comments({ slug }) {
             {loading ? (
                 <div className="text-zinc-500 text-sm">Chargement…</div>
             ) : comments.length === 0 ? (
-                <div className="text-center py-12 text-zinc-500 italic font-display text-lg">
+                <div className="text-center py-12 text-zinc-500 text-sm">
                     Sois le premier à commenter.
                 </div>
             ) : (
@@ -150,7 +150,7 @@ export default function Comments({ slug }) {
                             data-testid={`comment-${c.id}`}
                             className="flex gap-4 p-5 rounded-sm bg-[#0c0c0c] border border-white/5"
                         >
-                            <div className="w-10 h-10 shrink-0 rounded-full bg-[#d4a574]/10 border border-[#d4a574]/25 flex items-center justify-center text-[#d4a574] font-display italic text-lg">
+                            <div className="w-10 h-10 shrink-0 rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/25 flex items-center justify-center text-[#60a5fa] font-bold text-base">
                                 {c.author.slice(0, 1).toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">

@@ -39,7 +39,7 @@ export default function TutorialDetail() {
                     </div>
                     <Link
                         to="/tutoriels"
-                        className="inline-flex items-center gap-2 text-[#d4a574] text-sm"
+                        className="inline-flex items-center gap-2 text-[#60a5fa] text-sm"
                     >
                         <ArrowLeft className="w-4 h-4" /> Retour aux tutoriels
                     </Link>
@@ -63,14 +63,14 @@ export default function TutorialDetail() {
                 <div className="relative max-w-4xl mx-auto px-5 md:px-8">
                     <Link
                         to="/tutoriels"
-                        className="inline-flex items-center gap-1.5 text-zinc-500 hover:text-[#d4a574] text-sm mb-8"
+                        className="inline-flex items-center gap-1.5 text-zinc-500 hover:text-[#60a5fa] text-sm mb-8"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Retour aux tutoriels
                     </Link>
 
                     <div className="flex items-center gap-3 mb-6 flex-wrap">
-                        <span className="text-[#d4a574] text-[10px] uppercase tracking-[0.24em] font-medium">
+                        <span className="text-[#60a5fa] text-[10px] uppercase tracking-[0.24em] font-medium">
                             {tutorial.category}
                         </span>
                         <span className="text-zinc-700">/</span>
@@ -120,11 +120,11 @@ export default function TutorialDetail() {
                     </div>
 
                     {/* End */}
-                    <div className="mt-20 p-8 rounded-sm bg-gradient-to-br from-[#d4a574]/5 to-transparent border border-[#d4a574]/20 text-center">
-                        <div className="text-[10px] uppercase tracking-[0.24em] text-[#d4a574] font-medium mb-3">
+                    <div className="mt-20 p-8 rounded-sm bg-gradient-to-br from-[#3b82f6]/5 to-transparent border border-[#3b82f6]/20 text-center">
+                        <div className="text-[10px] uppercase tracking-[0.24em] text-[#60a5fa] font-medium mb-3">
                             · Fini
                         </div>
-                        <h3 className="font-display text-3xl md:text-4xl text-white mb-3 tracking-tight">
+                        <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
                             Tutoriel terminé
                         </h3>
                         <p className="text-zinc-400 mb-6">
@@ -136,7 +136,7 @@ export default function TutorialDetail() {
                                 onClick={() => {
                                     navigator.clipboard.writeText(window.location.href);
                                 }}
-                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.12em] hover:border-[#d4a574]/40 hover:text-[#d4a574] transition-colors"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.12em] hover:border-[#3b82f6]/40 hover:text-[#60a5fa] transition-colors"
                             >
                                 <Share2 className="w-3.5 h-3.5" />
                                 Copier le lien
@@ -161,14 +161,14 @@ function StepBlock({ step }) {
     return (
         <div data-testid={`step-${step.number}`} className="relative fade-up">
             <div className="flex items-baseline gap-5 mb-5">
-                <span className="font-display text-5xl md:text-6xl text-[#d4a574] italic leading-none tabular-nums">
+                <span className="font-display text-5xl md:text-6xl text-[#60a5fa] font-bold leading-none tabular-nums">
                     {String(step.number).padStart(2, "0")}
                 </span>
                 <div className="flex-1 pt-1">
                     <div className="text-[10px] uppercase tracking-[0.24em] text-zinc-500 font-medium mb-2">
                         Étape {step.number}
                     </div>
-                    <h2 className="font-display text-3xl md:text-4xl text-white leading-[1.05] tracking-tight">
+                    <h2 className="font-display text-3xl md:text-4xl font-bold text-white leading-[1.05] tracking-tight">
                         {step.title}
                     </h2>
                 </div>

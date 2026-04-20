@@ -24,7 +24,7 @@ export default function ProtectedRoute({ children, requireCreator = false }) {
                         Accès refusé
                     </div>
                     <p className="text-zinc-500 text-sm">
-                        Seul le rôle <span className="text-[#d4a574]">Créateur</span>{" "}
+                        Seul le rôle <span className="text-[#60a5fa]">Créateur</span>{" "}
                         peut accéder à cette section.
                     </p>
                 </div>

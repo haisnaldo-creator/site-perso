@@ -20,13 +20,13 @@ const HERO_BG =
     "https://static.prod-images.emergentagent.com/jobs/286230f2-1485-4530-9840-c85e55e52fd6/images/2b1458adfd22199d17399314011143a17e2c2c845ab482a11179e0b1afe3254b.png";
 
 const CATEGORY_VISUALS = {
-    fivem: { icon: Gamepad2, color: "text-[#d4a574]" },
-    reshade: { icon: Wand2, color: "text-[#d4a574]" },
-    "pack-graphique": { icon: ImageIcon, color: "text-[#d4a574]" },
-    optimisation: { icon: Cpu, color: "text-[#d4a574]" },
-    mods: { icon: Wrench, color: "text-[#d4a574]" },
-    crosshair: { icon: Crosshair, color: "text-[#d4a574]" },
-    manette: { icon: Gamepad, color: "text-[#d4a574]" },
+    fivem: { icon: Gamepad2, color: "text-[#60a5fa]" },
+    reshade: { icon: Wand2, color: "text-[#60a5fa]" },
+    "pack-graphique": { icon: ImageIcon, color: "text-[#60a5fa]" },
+    optimisation: { icon: Cpu, color: "text-[#60a5fa]" },
+    mods: { icon: Wrench, color: "text-[#60a5fa]" },
+    crosshair: { icon: Crosshair, color: "text-[#60a5fa]" },
+    manette: { icon: Gamepad, color: "text-[#60a5fa]" },
 };
 
 export default function Home() {
@@ -65,27 +65,28 @@ export default function Home() {
 
                 <div className="relative max-w-7xl mx-auto px-5 md:px-8 pt-24 pb-32 md:pt-40 md:pb-48">
                     <div className="flex items-center gap-3 mb-10 fade-up">
-                        <span className="w-10 h-px bg-[#d4a574]" />
-                        <span className="text-[10px] uppercase tracking-[0.28em] text-[#d4a574] font-medium">
-                            Édition 2026 · Tête de Mouette
+                        <span className="w-10 h-px bg-[#60a5fa]" />
+                        <span className="text-[11px] uppercase tracking-[0.22em] text-[#60a5fa] font-semibold">
+                            Édition 2026 · Communauté Tête de Mouette
                         </span>
                     </div>
 
-                    <h1 className="font-display text-[44px] leading-[0.98] sm:text-6xl lg:text-[84px] text-white tracking-[-0.02em] mb-8 fade-up max-w-5xl text-balance">
-                        Le manuel <span className="serif-accent">non-officiel</span>
+                    <h1 className="font-display text-[40px] leading-[1.05] sm:text-5xl lg:text-[68px] text-white tracking-[-0.03em] mb-6 fade-up max-w-5xl text-balance font-bold">
+                        Tutoriels FiveM, ReShade
                         <br />
-                        pour maîtriser FiveM,
+                        & Optimisation PC,
                         <br />
-                        ReShade & l'optimisation PC.
+                        <span className="text-[#60a5fa]">clairs et testés.</span>
                     </h1>
 
                     <p
-                        className="text-lg md:text-xl text-zinc-400 max-w-2xl mb-12 leading-[1.7] fade-up font-light"
+                        className="text-lg text-zinc-400 max-w-2xl mb-10 leading-relaxed fade-up"
                         style={{ animationDelay: "120ms" }}
                     >
-                        Des guides clairs, testés en conditions réelles, rédigés avec
-                        soin par <span className="text-white">tête de mouette</span>.
-                        Aucun jargon superflu, aucune étape oubliée.
+                        Guides pas-à-pas pour installer proprement ton pack graphique,
+                        régler ReShade, booster tes FPS et résoudre les crashs les plus
+                        courants. Écrits par <span className="text-white font-semibold">tête de mouette</span>,
+                        testés sur le terrain.
                     </p>
 
                     <div
@@ -103,7 +104,7 @@ export default function Home() {
                         <Link
                             to="/tutoriels/installer-pack-graphique-fivem"
                             data-testid="hero-cta-pack"
-                            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-sm border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.14em] hover:border-[#d4a574]/40 hover:text-[#d4a574] transition-colors"
+                            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-sm border border-white/15 text-white text-xs font-semibold uppercase tracking-[0.14em] hover:border-[#3b82f6]/40 hover:text-[#60a5fa] transition-colors"
                         >
                             Guide pack graphique
                         </Link>
@@ -115,11 +116,11 @@ export default function Home() {
                     >
                         {[
                             { k: total || "12", l: "Tutoriels publiés" },
-                            { k: "07", l: "Catégories" },
+                            { k: "7", l: "Catégories" },
                             { k: "2026", l: "Maintenu depuis" },
                         ].map((s) => (
                             <div key={s.l}>
-                                <div className="font-display text-4xl sm:text-5xl text-white tabular-nums leading-none mb-2">
+                                <div className="font-bold text-4xl sm:text-5xl text-white tabular-nums leading-none mb-3">
                                     {s.k}
                                 </div>
                                 <div className="dotted-rule mb-2 max-w-[120px]" />
@@ -158,7 +159,7 @@ export default function Home() {
                                 className="fade-up"
                                 style={{ animationDelay: `${i * 100}ms` }}
                             >
-                                <v.icon className="w-5 h-5 text-[#d4a574] mb-5" strokeWidth={1.5} />
+                                <v.icon className="w-5 h-5 text-[#60a5fa] mb-5" strokeWidth={1.5} />
                                 <div className="dotted-rule mb-5 max-w-[60px]" />
                                 <h3 className="font-display text-2xl text-white mb-3 tracking-tight">
                                     {v.title}
@@ -177,16 +178,16 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto px-5 md:px-8">
                     <div className="flex items-end justify-between mb-12 gap-4">
                         <div>
-                            <div className="text-[10px] uppercase tracking-[0.28em] text-[#d4a574] font-medium mb-3">
+                            <div className="text-[10px] uppercase tracking-[0.28em] text-[#60a5fa] font-medium mb-3">
                                 · Sommaire
                             </div>
-                            <h2 className="font-display text-4xl md:text-6xl text-white tracking-tight text-balance">
+                            <h2 className="font-display text-3xl md:text-4xl font-bold text-white tracking-tight text-balance">
                                 Parcourir <span className="serif-accent">par thème</span>
                             </h2>
                         </div>
                         <Link
                             to="/categories"
-                            className="hidden sm:inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-[#d4a574] link-hover"
+                            className="hidden sm:inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-[#60a5fa] link-hover"
                         >
                             Tout voir <ArrowRight className="w-4 h-4" />
                         </Link>
@@ -197,14 +198,14 @@ export default function Home() {
                             const V =
                                 CATEGORY_VISUALS[cat.id] || {
                                     icon: Gamepad2,
-                                    color: "text-[#d4a574]",
+                                    color: "text-[#60a5fa]",
                                 };
                             return (
                                 <Link
                                     key={cat.id}
                                     to={`/tutoriels?category=${cat.id}`}
                                     data-testid={`category-${cat.id}`}
-                                    className="group p-6 border-b border-r border-white/5 hover:bg-[#d4a574]/5 transition-colors fade-up"
+                                    className="group p-6 border-b border-r border-white/5 hover:bg-[#3b82f6]/5 transition-colors fade-up"
                                     style={{ animationDelay: `${i * 50}ms` }}
                                 >
                                     <V.icon
@@ -226,16 +227,16 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto px-5 md:px-8">
                     <div className="flex items-end justify-between mb-12">
                         <div>
-                            <div className="text-[10px] uppercase tracking-[0.28em] text-[#d4a574] font-medium mb-3">
+                            <div className="text-[10px] uppercase tracking-[0.28em] text-[#60a5fa] font-medium mb-3">
                                 · Sélection
                             </div>
-                            <h2 className="font-display text-4xl md:text-6xl text-white tracking-tight">
+                            <h2 className="font-display text-3xl md:text-4xl font-bold text-white tracking-tight">
                                 Tutoriels <span className="serif-accent">populaires</span>
                             </h2>
                         </div>
                         <Link
                             to="/tutoriels"
-                            className="hidden sm:inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-[#d4a574] link-hover"
+                            className="hidden sm:inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-[#60a5fa] link-hover"
                         >
                             Voir tout <ArrowRight className="w-4 h-4" />
                         </Link>
@@ -252,10 +253,10 @@ export default function Home() {
             {/* CTA */}
             <section className="py-20 md:py-28 border-t border-white/5">
                 <div className="max-w-4xl mx-auto px-5 md:px-8 text-center">
-                    <div className="text-[10px] uppercase tracking-[0.28em] text-[#d4a574] font-medium mb-6">
+                    <div className="text-[10px] uppercase tracking-[0.28em] text-[#60a5fa] font-medium mb-6">
                         · Commencer maintenant
                     </div>
-                    <h3 className="font-display text-4xl md:text-6xl text-white mb-6 tracking-tight text-balance leading-[1.05]">
+                    <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-6 tracking-tight text-balance leading-[1.05]">
                         Un <span className="serif-accent">FiveM stable,</span>
                         <br />
                         c'est une question de méthode.

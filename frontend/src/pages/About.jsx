@@ -8,12 +8,12 @@ export default function About() {
             <section className="pt-16 pb-20 border-b border-white/5 relative overflow-hidden">
                 <div className="absolute inset-0 bg-grid opacity-20" />
                 <div className="relative max-w-4xl mx-auto px-5 md:px-8">
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-[#d4a574] font-semibold mb-4">
+                    <div className="text-[11px] uppercase tracking-[0.2em] text-[#60a5fa] font-semibold mb-4">
                         · À propos
                     </div>
-                    <h1 className="font-display text-4xl md:text-6xl text-white tracking-tight mb-6 leading-[1.02]">
+                    <h1 className="font-display text-4xl md:text-5xl font-bold text-white tracking-tight mb-6 leading-[1.05]">
                         Le hub FiveM par{" "}
-                        <span className="text-[#d4a574]">tête de mouette</span>
+                        <span className="text-[#60a5fa]">tête de mouette</span>
                     </h1>
                     <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
                         Site communautaire dédié à FiveM, ReShade et l'optimisation PC.
@@ -52,7 +52,7 @@ export default function About() {
                                 key={v.title}
                                 className="p-6 rounded-md bg-[#0b0b12] border border-white/5"
                             >
-                                <v.icon className="w-5 h-5 text-[#d4a574] mb-4" />
+                                <v.icon className="w-5 h-5 text-[#60a5fa] mb-4" />
                                 <div className="font-display text-white mb-1.5">
                                     {v.title}
                                 </div>
@@ -63,8 +63,8 @@ export default function About() {
                         ))}
                     </div>
 
-                    <div className="mt-14 p-8 md:p-12 rounded-md bg-gradient-to-br from-[#d4a574]/10 to-transparent border border-[#d4a574]/20 text-center">
-                        <h3 className="font-display text-2xl md:text-3xl text-white mb-4 tracking-tight">
+                    <div className="mt-14 p-8 md:p-12 rounded-md bg-gradient-to-br from-[#3b82f6]/10 to-transparent border border-[#3b82f6]/20 text-center">
+                        <h3 className="font-display text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
                             Commence par les essentiels
                         </h3>
                         <p className="text-zinc-400 mb-6">
@@ -73,19 +73,19 @@ export default function About() {
                         <div className="flex flex-wrap justify-center gap-2.5">
                             <Link
                                 to="/tutoriels/installer-pack-graphique-fivem"
-                                className="px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687]"
+                                className="px-4 py-2.5 rounded-md bg-[#60a5fa] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#3b82f6]"
                             >
                                 Pack graphique
                             </Link>
                             <Link
                                 to="/tutoriels/installer-reshade-fivem"
-                                className="px-4 py-2.5 rounded-md border border-white/15 text-white text-xs font-bold uppercase tracking-wider hover:border-[#d4a574]/40 hover:text-[#d4a574]"
+                                className="px-4 py-2.5 rounded-md border border-white/15 text-white text-xs font-bold uppercase tracking-wider hover:border-[#3b82f6]/40 hover:text-[#60a5fa]"
                             >
                                 ReShade
                             </Link>
                             <Link
                                 to="/tutoriels/optimiser-windows-fivem-fps"
-                                className="px-4 py-2.5 rounded-md border border-white/15 text-white text-xs font-bold uppercase tracking-wider hover:border-[#d4a574]/40 hover:text-[#d4a574]"
+                                className="px-4 py-2.5 rounded-md border border-white/15 text-white text-xs font-bold uppercase tracking-wider hover:border-[#3b82f6]/40 hover:text-[#60a5fa]"
                             >
                                 +30 FPS
                             </Link>

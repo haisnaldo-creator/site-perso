@@ -37,12 +37,12 @@ export default function AdminDashboard() {
             <section className="pt-14 pb-8 border-b border-white/5">
                 <div className="max-w-7xl mx-auto px-5 md:px-8">
                     <div className="flex items-center gap-2 mb-3">
-                        <Shield className="w-4 h-4 text-[#d4a574]" />
-                        <span className="text-[11px] uppercase tracking-[0.2em] text-[#d4a574] font-semibold">
+                        <Shield className="w-4 h-4 text-[#60a5fa]" />
+                        <span className="text-[11px] uppercase tracking-[0.2em] text-[#60a5fa] font-semibold">
                             {user?.role === "creator" ? "Créateur" : "Admin"}
                         </span>
                     </div>
-                    <h1 className="font-display text-3xl md:text-5xl text-white tracking-tight">
+                    <h1 className="font-display text-3xl md:text-4xl font-bold text-white tracking-tight">
                         Tableau de bord
                     </h1>
                     <p className="text-zinc-500 mt-2">
@@ -57,7 +57,7 @@ export default function AdminDashboard() {
                                 onClick={() => setTab(t.id)}
                                 className={`px-5 py-3 text-[11px] font-medium uppercase tracking-[0.16em] border-b-2 transition-colors flex items-center gap-2 ${
                                     tab === t.id
-                                        ? "text-[#d4a574] border-[#d4a574]"
+                                        ? "text-[#60a5fa] border-[#60a5fa]"
                                         : "text-zinc-500 border-transparent hover:text-white"
                                 }`}
                             >
@@ -118,7 +118,7 @@ function TutorialsManager() {
                 <button
                     data-testid="new-tutorial-btn"
                     onClick={() => setEditing("new")}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687] transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#60a5fa] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#3b82f6] transition-colors"
                 >
                     <Plus className="w-4 h-4" />
                     Nouveau tuto
@@ -178,7 +178,7 @@ function TutorialsManager() {
                                     <button
                                         data-testid={`edit-tutorial-${t.slug}`}
                                         onClick={() => setEditing(t)}
-                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-[#d4a574] hover:bg-[#d4a574]/10 text-xs font-semibold"
+                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-[#60a5fa] hover:bg-[#3b82f6]/10 text-xs font-semibold"
                                     >
                                         <Pencil className="w-3 h-3" />
                                         Éditer
@@ -378,7 +378,7 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                                 </label>
                                 <button
                                     onClick={addStep}
-                                    className="text-xs text-[#d4a574] font-semibold hover:underline"
+                                    className="text-xs text-[#60a5fa] font-semibold hover:underline"
                                 >
                                     + Ajouter
                                 </button>
@@ -390,7 +390,7 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                                         className="p-4 rounded bg-[#05050a] border border-white/5 space-y-2"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <span className="text-xs text-[#d4a574] font-bold uppercase">
+                                            <span className="text-xs text-[#60a5fa] font-bold uppercase">
                                                 Étape {s.number}
                                             </span>
                                             <button
@@ -467,7 +467,7 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                             data-testid="save-tutorial-btn"
                             onClick={save}
                             disabled={saving}
-                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687] disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#60a5fa] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#3b82f6] disabled:opacity-50"
                         >
                             <Save className="w-4 h-4" />
                             {saving ? "Enregistrement…" : "Enregistrer"}
@@ -498,7 +498,7 @@ function Toggle({ label, value, onChange }) {
                 type="button"
                 onClick={() => onChange(!value)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    value ? "bg-[#d4a574]" : "bg-zinc-700"
+                    value ? "bg-[#60a5fa]" : "bg-zinc-700"
                 }`}
             >
                 <span
@@ -551,7 +551,7 @@ function UsersManager() {
                 <button
                     data-testid="new-user-btn"
                     onClick={() => setEditing("new")}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687]"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#60a5fa] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#3b82f6]"
                 >
                     <Plus className="w-4 h-4" />
                     Nouvel utilisateur
@@ -584,7 +584,7 @@ function UsersManager() {
                                     <span
                                         className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider font-bold ${
                                             u.role === "creator"
-                                                ? "bg-[#d4a574]/15 text-[#d4a574] border border-[#d4a574]/30"
+                                                ? "bg-[#3b82f6]/15 text-[#60a5fa] border border-[#3b82f6]/30"
                                                 : "bg-white/5 text-zinc-300 border border-white/10"
                                         }`}
                                     >
@@ -595,7 +595,7 @@ function UsersManager() {
                                     <button
                                         data-testid={`edit-user-${u.email}`}
                                         onClick={() => setEditing(u)}
-                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-[#d4a574] hover:bg-[#d4a574]/10 text-xs font-semibold"
+                                        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded text-[#60a5fa] hover:bg-[#3b82f6]/10 text-xs font-semibold"
                                     >
                                         <Pencil className="w-3 h-3" />
                                         Éditer
@@ -746,7 +746,7 @@ function UserEditor({ user, onClose, onSaved }) {
                         data-testid="save-user-btn"
                         onClick={save}
                         disabled={saving}
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#d4a574] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#e0b687] disabled:opacity-50"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-[#60a5fa] text-black text-xs font-bold uppercase tracking-wider hover:bg-[#3b82f6] disabled:opacity-50"
                     >
                         <Save className="w-4 h-4" />
                         Enregistrer
@@ -820,7 +820,7 @@ function ThumbnailUpload({ value, onChange }) {
                     type="button"
                     onClick={() => inputRef.current?.click()}
                     disabled={uploading}
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-sm border border-white/10 text-white text-xs font-medium hover:border-[#d4a574]/40 hover:text-[#d4a574] disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-sm border border-white/10 text-white text-xs font-medium hover:border-[#3b82f6]/40 hover:text-[#60a5fa] disabled:opacity-50"
                 >
                     <Upload className="w-3.5 h-3.5" />
                     {uploading ? "Envoi…" : value ? "Changer" : "Uploader"}
@@ -904,7 +904,7 @@ function CommentsManager() {
                             onClick={() => setFilter(f.id)}
                             className={`px-3 py-1.5 rounded-sm text-[11px] font-medium uppercase tracking-[0.12em] transition-colors ${
                                 filter === f.id
-                                    ? "bg-[#d4a574] text-black"
+                                    ? "bg-[#60a5fa] text-black"
                                     : "text-zinc-500 hover:text-white"
                             }`}
                         >
@@ -928,7 +928,7 @@ function CommentsManager() {
                             className="p-5 rounded-sm bg-[#0c0c0c] border border-white/5"
                         >
                             <div className="flex items-start gap-4">
-                                <div className="w-10 h-10 shrink-0 rounded-full bg-[#d4a574]/10 border border-[#d4a574]/25 flex items-center justify-center text-[#d4a574] font-display italic text-lg">
+                                <div className="w-10 h-10 shrink-0 rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/25 flex items-center justify-center text-[#60a5fa] font-bold text-base">
                                     {c.author.slice(0, 1).toUpperCase()}
                                 </div>
                                 <div className="flex-1 min-w-0">
