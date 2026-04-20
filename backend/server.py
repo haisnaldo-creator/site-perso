@@ -37,6 +37,11 @@ ADMIN_PASSWORD = get_env("ADMIN_PASSWORD")
 APP_NAME = get_env("APP_NAME", "mouette")
 CORS_ORIGINS = get_env("CORS_ORIGINS", "*")
 
+# === AJOUTE ÇA ICI ===
+JWT_ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7   # 7 jours
+# =====================
+
 if not all([MONGO_URL, DB_NAME, JWT_SECRET, CREATOR_EMAIL, CREATOR_PASSWORD, ADMIN_EMAIL, ADMIN_PASSWORD]):
     raise ValueError("Variables d'environnement manquantes ! Vérifie Vercel.")
 
@@ -489,10 +494,10 @@ async def admin_delete_comment(comment_id: str, _: dict = Depends(require_admin)
 
 # ---------- Seed ----------
 async def seed_users():
-    creator_email = os.environ["CREATOR_EMAIL"].lower().strip()
-    creator_password = os.environ["CREATOR_PASSWORD"]
-    admin_email = os.environ["ADMIN_EMAIL"].lower().strip()
-    admin_password = os.environ["ADMIN_PASSWORD"]
+    creator_email = CREATOR_EMAIL.lower().strip()      # ← utilise la variable
+    creator_password = CREATOR_PASSWORD
+    admin_email = ADMIN_EMAIL.lower().strip()
+    admin_password = ADMIN_PASSWORD
     now = datetime.now(timezone.utc).isoformat()
 
     # Creator
