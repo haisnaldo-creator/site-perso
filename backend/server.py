@@ -27,11 +27,15 @@ def get_env(key, default=None):
     return os.environ.get(key) or default
 
 # ---------- Config ----------
-MONGO_URL = os.environ["MONGO_URL"]
-DB_NAME = os.environ["DB_NAME"]
-JWT_SECRET = os.environ["JWT_SECRET"]
-JWT_ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
+MONGO_URL = get_env("MONGO_URL")
+DB_NAME = get_env("DB_NAME")
+JWT_SECRET = get_env("JWT_SECRET")
+CREATOR_EMAIL = get_env("CREATOR_EMAIL")
+CREATOR_PASSWORD = get_env("CREATOR_PASSWORD")
+ADMIN_EMAIL = get_env("ADMIN_EMAIL")
+ADMIN_PASSWORD = get_env("ADMIN_PASSWORD")
+APP_NAME = get_env("APP_NAME", "mouette")
+CORS_ORIGINS = get_env("CORS_ORIGINS", "*")
 
 if not all([MONGO_URL, DB_NAME, JWT_SECRET, CREATOR_EMAIL, CREATOR_PASSWORD, ADMIN_EMAIL, ADMIN_PASSWORD]):
     raise ValueError("Variables d'environnement manquantes ! Vérifie Vercel.")
