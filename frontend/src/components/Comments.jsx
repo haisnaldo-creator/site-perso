@@ -23,7 +23,7 @@ export default function Comments({ slug }) {
     }
     useEffect(() => {
         load();
-    }, [slug]);
+    }, []);
 
     async function submit(e) {
         e.preventDefault();
