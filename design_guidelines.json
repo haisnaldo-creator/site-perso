@@ -1,0 +1,101 @@
+{
+  "theme": "dark",
+  "archetype": "Archetype 5: Jewel & Luxury (Premium Gaming Variant)",
+  "colors": {
+    "background_main": "#05050A",
+    "background_surface": "#0F0F16",
+    "background_glass": "rgba(10, 10, 14, 0.7)",
+    "primary": "#00E5FF",
+    "primary_hover": "#00B8D9",
+    "accent_warning": "#FF3366",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#A1A1AA",
+    "border_subtle": "rgba(255, 255, 255, 0.1)",
+    "border_glow": "rgba(0, 229, 255, 0.3)"
+  },
+  "typography": {
+    "headings": "Outfit",
+    "body": "Manrope",
+    "mono": "JetBrains Mono",
+    "h1_classes": "text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight",
+    "h2_classes": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight",
+    "h3_classes": "text-xl sm:text-2xl font-bold",
+    "body_classes": "text-base leading-relaxed text-zinc-400"
+  },
+  "layout_spacing": {
+    "section_padding": "py-20 md:py-32",
+    "container_padding": "px-6 md:px-12 lg:px-24",
+    "bento_gap": "gap-6 md:gap-8"
+  },
+  "components": {
+    "header": {
+      "style": "Crystal Glass (backdrop-blur-xl bg-black/60) with 1px border-b border-white/10",
+      "behavior": "Sticky z-50"
+    },
+    "tutorial_card": {
+      "style": "Neumorphic/Technical mix: flat background, 1px border-white/5, subtle inner glow on hover. No rounded corners, use rounded-md max.",
+      "hover_effect": "-translate-y-1 shadow-[0_8px_32px_rgba(0,229,255,0.15)] border-cyan-500/30"
+    },
+    "code_block": {
+      "style": "Retro-Futurism: Deep black background #000000, neon syntax highlights, 1px cyan border, copy to clipboard button.",
+      "font": "font-mono text-sm"
+    },
+    "callout_warning": {
+      "style": "bg-rose-500/10 border-l-4 border-rose-500 p-4 text-rose-100"
+    }
+  },
+  "image_urls": [
+    {
+      "category": "hero_background",
+      "url": "https://static.prod-images.emergentagent.com/jobs/286230f2-1485-4530-9840-c85e55e52fd6/images/2b1458adfd22199d17399314011143a17e2c2c845ab482a11179e0b1afe3254b.png",
+      "description": "Cinematic ultra-realistic night street scene, wet asphalt reflecting neon lights, modern graphics mod showcase."
+    },
+    {
+      "category": "mascot_logo",
+      "url": "https://static.prod-images.emergentagent.com/jobs/286230f2-1485-4530-9840-c85e55e52fd6/images/e9c24d33580c20c0ea21fe2a003dba71c60502aace73d52f4e3574157b35d40b.png",
+      "description": "Esports mascot logo of a seagull head (Tête de Mouette)."
+    },
+    {
+      "category": "thumbnail_pc_optimization",
+      "url": "https://static.prod-images.emergentagent.com/jobs/286230f2-1485-4530-9840-c85e55e52fd6/images/95cbb8396ae3dded28c3c21838f7aa15f81cb9bfc6b88f1cb8533e65c656af13.png",
+      "description": "Macro photography of high-end PC motherboard glowing."
+    },
+    {
+      "category": "thumbnail_setup",
+      "url": "https://images.pexels.com/photos/9794458/pexels-photo-9794458.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Sleek gaming setup with neon monitors."
+    },
+    {
+      "category": "thumbnail_reshade",
+      "url": "https://images.unsplash.com/photo-1771014846919-3a1cf73aeea1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzN8MHwxfHNlYXJjaHwyfHxkYXJrJTIwZ2FtaW5nJTIwc2V0dXAlMjBuZW9ufGVufDB8fHx8MTc3NjY4NjI5NHww&ixlib=rb-4.1.0&q=85",
+      "description": "Dark gaming laptop with colorful RGB lighting, useful as a fallback for modding tutorials."
+    }
+  ],
+  "motion_accessibility": {
+    "hover_states": "All links and buttons must transition clearly, e.g., text-white to text-cyan-400.",
+    "focus_states": "focus:ring-2 focus:ring-cyan-500 focus:outline-none",
+    "entrance_animation": "Staggered fade-up for tutorial lists using Framer Motion."
+  },
+  "instructions_to_main_agent": [
+    "Build a robust layout with a sticky glassmorphism header and pure HTML/Tailwind for structural asymmetry on the landing page.",
+    "Use Lucide-react for all icons (e.g., Download, Settings, Monitor, Crosshair, Gamepad).",
+    "For the Tutorial Detail pages, implement numbered steps using large typography (e.g., text-4xl font-black text-white/10 for the numbers behind the text).",
+    "Implement clear syntax highlighting (or simulated styles) for CitizenFX.ini code blocks with a functional copy button.",
+    "Build an Admin Dashboard for 'Créateur' role to manage tutorials, using Shadcn tables and forms. Keep the design cardless and rectangular.",
+    "Include a stylized Login page matching the premium gaming brand.",
+    "All interactive elements MUST have data-testid attributes (e.g., data-testid='login-button').",
+    "Use pure HTML + Tailwind for marketing sections, but highly customized Shadcn for forms, dialogs, and tables."
+  ],
+  "icons": {
+    "library": "lucide-react",
+    "suggestions": {
+      "fivem": "Gamepad2",
+      "reshade": "Wand2",
+      "pack_graphique": "Image",
+      "optimisation": "Cpu",
+      "mods": "Wrench",
+      "crosshair": "Crosshair",
+      "manette": "Gamepad"
+    }
+  }
+}
