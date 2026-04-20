@@ -1,5 +1,6 @@
-from dotenv import load_dotenv
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / ".env")
@@ -22,12 +23,18 @@ from pydantic import BaseModel, Field, EmailStr
 
 from seed_data import SEED_TUTORIALS
 
+def get_env(key, default=None):
+    return os.environ.get(key) or default
+
 # ---------- Config ----------
 MONGO_URL = os.environ["MONGO_URL"]
 DB_NAME = os.environ["DB_NAME"]
 JWT_SECRET = os.environ["JWT_SECRET"]
 JWT_ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
+
+if not all([MONGO_URL, DB_NAME, JWT_SECRET, CREATOR_EMAIL, CREATOR_PASSWORD, ADMIN_EMAIL, ADMIN_PASSWORD]):
+    raise ValueError("Variables d'environnement manquantes ! Vérifie Vercel.")
 
 # ---------- Object storage ----------
 STORAGE_URL = "https://integrations.emergentagent.com/objstore/api/v1/storage"
