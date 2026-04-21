@@ -24,6 +24,7 @@ const CATEGORY_VISUALS = {
     reshade: { icon: Wand2, color: "text-[#60a5fa]" },
     "pack-graphique": { icon: ImageIcon, color: "text-[#60a5fa]" },
     optimisation: { icon: Cpu, color: "text-[#60a5fa]" },
+    "cyber-info": { icon: Cpu, color: "text-[#60a5fa]" },
     mods: { icon: Wrench, color: "text-[#60a5fa]" },
     crosshair: { icon: Crosshair, color: "text-[#60a5fa]" },
     manette: { icon: Gamepad, color: "text-[#60a5fa]" },
