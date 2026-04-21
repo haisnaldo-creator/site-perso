@@ -27,6 +27,7 @@ const CATEGORY_LABELS = {
     reshade: "ReShade",
     "pack-graphique": "Pack Graphique",
     optimisation: "Optimisation PC",
+    "cyber-info": "Cyber Information",
     mods: "Mods",
     crosshair: "Crosshair",
     manette: "Manette",
