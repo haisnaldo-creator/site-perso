@@ -17,6 +17,7 @@ const ICONS = {
     reshade: Wand2,
     "pack-graphique": ImageIcon,
     optimisation: Cpu,
+    "cyber-info": Cpu,
     mods: Wrench,
     crosshair: Crosshair,
     manette: Gamepad,
@@ -30,6 +31,8 @@ const DESCRIPTIONS = {
         "Packs graphiques GTA V / FiveM : installation, résolution des bugs et crash.",
     optimisation:
         "Nettoyage, réglages Windows/NVIDIA, libération de RAM et boost FPS.",
+    "cyber-info":
+        "Information sur la Cybersécurité/Aide pour les outils numérique et Protection contre les potentiels menaces",
     mods: "Mods solo, packs son, trainers et scripts externes.",
     crosshair: "Crosshairs custom pour FiveM et ajustement en jeu.",
     manette: "Configuration Xbox / PlayStation, deadzones et fixes de détection.",
