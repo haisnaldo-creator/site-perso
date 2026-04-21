@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-export default function CodeBlock({ code, label = "Code" }) {
+export default function CodeBlock({ code, label = "Code" }) {  // ← changé ici
     const [copied, setCopied] = useState(false);
 
     function copy() {
@@ -11,10 +11,7 @@ export default function CodeBlock({ code, label = "Code" }) {
     }
 
     return (
-        <div
-            data-testid="code-block"
-            className="code-block rounded-md overflow-hidden my-4"
-        >
+        <div data-testid="code-block" className="code-block rounded-md overflow-hidden my-4">
             <div className="flex items-center justify-between px-4 py-2 bg-black/60 border-b border-[#3b82f6]/20">
                 <div className="flex items-center gap-2">
                     <div className="flex gap-1.5">
