@@ -46,7 +46,7 @@ class TestPublic:
         cats = r.json()
         assert len(cats) == 7
         ids = {c["id"] for c in cats}
-        assert {"fivem", "reshade", "pack-graphique", "optimisation", "mods", "crosshair", "manette"} == ids
+        assert {"fivem", "reshade", "pack-graphique", "optimisation", "cyber-info", "mods", "crosshair", "manette"} == ids
 
     def test_tutorials_list(self, api):
         r = api.get(f"{BASE_URL}/api/tutorials")
