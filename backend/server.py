@@ -195,6 +195,7 @@ class Step(BaseModel):
     title: str
     content: str = ""
     code: Optional[str] = None
+    codeLabel: Optional[str] = None     # ← AJOUTE CETTE LIGNE
     warning: Optional[str] = None
     tip: Optional[str] = None
     link: Optional[str] = None
