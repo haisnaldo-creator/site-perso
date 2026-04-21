@@ -428,6 +428,12 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                                             className="inp font-mono text-xs"
                                         />
                                         <input
+                                            value={s.codeLabel || ""}
+                                            placeholder="Nom du fichier (ex: server.lua, config.json...)"
+                                            onChange={(e) => updateStep(i, "codeLabel", e.target.value)}
+                                            className="inp font-mono text-xs mt-2"
+                                        />
+                                        <input
                                             value={s.link || ""}
                                             placeholder="Lien externe (optionnel)"
                                             onChange={(e) =>
