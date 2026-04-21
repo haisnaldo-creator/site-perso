@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-export default function CodeBlock({ code, label = "CitizenFX.ini" }) {
+export default function CodeBlock({ code, label = "Code" }) {
     const [copied, setCopied] = useState(false);
 
     function copy() {
