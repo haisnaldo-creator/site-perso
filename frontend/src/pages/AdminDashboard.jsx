@@ -308,6 +308,7 @@ function TutorialEditor({ tutorial, onClose, onSaved }) {
                                         "fivem",
                                         "reshade",
                                         "pack-graphique",
+                                        "cyber-info",
                                         "optimisation",
                                         "mods",
                                         "crosshair",
