@@ -180,7 +180,14 @@ function StepBlock({ step }) {
                     </p>
                 )}
                 {step.link && <LinkCallout href={step.link} />}
-                {step.code && <CodeBlock code={step.code} />}
+                {step.code && (
+    <div className="my-6">
+        <CodeBlock 
+            code={step.code} 
+            label={step.codeLabel || "Code"}   // ← ajouté
+        />
+    </div>
+)}
                 {step.warning && <WarningCallout>{step.warning}</WarningCallout>}
                 {step.tip && <TipCallout>{step.tip}</TipCallout>}
             </div>
