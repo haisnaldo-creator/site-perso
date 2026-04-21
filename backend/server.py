@@ -331,6 +331,7 @@ async def list_categories():
         {"id": "reshade", "name": "ReShade", "icon": "Wand2"},
         {"id": "pack-graphique", "name": "Pack Graphique", "icon": "Image"},
         {"id": "optimisation", "name": "Optimisation PC", "icon": "Cpu"},
+        {"id": "cyber-info", "name": "Cyber-Info", "icon": "Cpu"},
         {"id": "mods", "name": "Mods", "icon": "Wrench"},
         {"id": "crosshair", "name": "Crosshair", "icon": "Crosshair"},
         {"id": "manette", "name": "Manette & Clavier", "icon": "Gamepad"},
