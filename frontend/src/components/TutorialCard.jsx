@@ -17,6 +17,7 @@ const ICONS = {
     reshade: Wand2,
     "pack-graphique": ImageIcon,
     optimisation: Cpu,
+    "cyber-info": Cpu,
     mods: Wrench,
     crosshair: Crosshair,
     manette: Gamepad,
